@@ -6,7 +6,7 @@ interface Props {
 }
 export const Question = ({ data, showContent = true }: Props) => (
   <div>
-    <div>{data.title}</div>
+    <strong>{data.title}</strong>
     {showContent && (
       <div>
         {data.content.length > 50
