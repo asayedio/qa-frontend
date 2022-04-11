@@ -6,6 +6,8 @@ import { QuestionList } from './QuestionList';
 import { getUnansweredQuestions, QuestionData } from './QuestionData';
 import { Page } from './Page';
 import { PageTitle } from './PageTitle';
+import { LoadingSpinner } from './spinner';
+
 export const HomePage = () => {
   const [questions, setQuestions] = React.useState<QuestionData[]>([]);
   const [questionsLoading, setQuestionsLoading] = React.useState(true);
@@ -35,7 +37,7 @@ export const HomePage = () => {
         </PrimaryButton>
       </div>
       {questionsLoading ? (
-        <div>Loading…</div>
+        <LoadingSpinner />
       ) : (
         <QuestionList data={questions || []} />
       )}
