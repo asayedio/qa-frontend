@@ -1,12 +1,21 @@
 import React from 'react';
 import { UserIcon } from './Icons';
-export const Header = () => (
-  <div>
-    <a href="./">Q & A</a>
-    <input type="type" placeholder="Searching..." />
-    <a href="./signin">
-      <UserIcon />
-      <span>Sign In</span>
-    </a>
-  </div>
-);
+export const Header = () => {
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.value);
+  };
+  return (
+    <div>
+      <a href="./">Q & A</a>
+      <input
+        type="type"
+        placeholder="Searching..."
+        onChange={handleSearchInputChange}
+      />
+      <a href="./signin">
+        <UserIcon />
+        <span>Sign In</span>
+      </a>
+    </div>
+  );
+};
