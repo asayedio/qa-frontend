@@ -1,11 +1,12 @@
 import React from 'react';
 import { UserIcon } from './Icons';
+import './Header.module.css';
 export const Header = () => {
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.currentTarget.value);
   };
   return (
-    <div>
+    <div className="styles.container">
       <a href="./">Q & A</a>
       <input
         type="type"
