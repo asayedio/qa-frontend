@@ -1,20 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { fontFamily, fontSize, gray1, gray2, gray5 } from './styles';
 import React from 'react';
 import { UserIcon } from './Icons';
 /**import './Header.module.css';*/
+type FormData = {
+  search: string;
+};
 export const Header = () => {
+  const { register } = useForm<FormData>();
   const [searchParams] = useSearchParams();
   const criteria = searchParams.get('criteria') || '';
-  const [search, setSearch] = React.useState(criteria);
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
-  };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(search);
   };
   return (
     <div
@@ -45,10 +45,11 @@ export const Header = () => {
       </Link>
       <form onSubmit={handleSubmit}>
         <input
+          ref={register}
           type="type"
           placeholder="Searching..."
-          value={search}
-          onChange={handleSearchInputChange}
+          name="search"
+          defaultValue={criteria}
           css={css`
             box-sizing: border-box;
             font-family: ${fontFamily};
