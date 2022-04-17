@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { PrimaryButton } from './styles';
+import { gray1, PrimaryButton } from './styles';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { QuestionList } from './QuestionList';
 import { getUnansweredQuestions, QuestionData } from './QuestionData';
 import { Page } from './Page';
 import { PageTitle } from './PageTitle';
-import { LoadingSpinner } from './spinner';
+import MoonLoader from 'react-spinners/ClipLoader';
 
 export const HomePage = () => {
   const [questions, setQuestions] = React.useState<QuestionData[]>([]);
@@ -28,9 +28,7 @@ export const HomePage = () => {
     <Page>
       <div
         css={css`
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          margin: 10px auto;
         `}
       >
         <PageTitle>Unanswered Questions</PageTitle>
@@ -39,7 +37,15 @@ export const HomePage = () => {
         </PrimaryButton>
       </div>
       {questionsLoading ? (
-        <LoadingSpinner />
+        <MoonLoader
+          color={gray1}
+          size={50}
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          `}
+        />
       ) : (
         <QuestionList data={questions || []} />
       )}

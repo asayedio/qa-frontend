@@ -9,8 +9,8 @@ import { Header } from './header';
 import { HomePage } from './HomePage';
 import { NotFoundPage } from './NotFoundPage';
 import { QuestionPage } from './QuestionPage';
-import { fontFamily, fontSize, gray2 } from './styles';
-import { LoadingSpinner } from './spinner';
+import { fontFamily, fontSize, gray1, gray2 } from './styles';
+import MoonLoader from 'react-spinners/ClipLoader';
 const AskPage = React.lazy(() => import('./AskPage'));
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           <Route
             path="ask"
             element={
-              <React.Suspense fallback={<LoadingSpinner></LoadingSpinner>}>
+              <React.Suspense fallback={<MoonLoader color={gray1} size={50} />}>
                 <AskPage />
               </React.Suspense>
             }
