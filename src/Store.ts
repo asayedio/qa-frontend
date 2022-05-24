@@ -73,3 +73,66 @@ export const searchedQuestionsAction = (questions: QuestionData[]) =>
 // #endregion Searching questions
 
 // #endregion Actions
+
+// #region Reducer
+
+// A union type containing all the action types that will represent the reducer action parameter
+type QuestionsActions =
+  | ReturnType<typeof gettingUnansweredQuestionsAction>
+  | ReturnType<typeof gotUnansweredQuestionsAction>
+  | ReturnType<typeof gettingQuestionAction>
+  | ReturnType<typeof gotQuestionAction>
+  | ReturnType<typeof searchingQuestionsAction>
+  | ReturnType<typeof searchedQuestionsAction>;
+
+const questionsReducer = (
+  state = initialQuestionState, //Te state will be undefined the frst time the reducer is called, so we default this to the initial state
+  action: QuestionsActions,
+) => {
+  // TODO - Handle the different actions and return
+  switch (action.type) {
+    case GETTINGUNANSWEREDQUESTIONS: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case GOTUNANSWEREDQUESTIONS: {
+      return {
+        ...state,
+        unanswered: action.questions,
+        loading: false,
+      };
+    }
+    case GETTINGQUESTION: {
+      return {
+        ...state,
+        viewing: null,
+        loading: true,
+      };
+    }
+    case GOTQUESTION: {
+      return {
+        ...state,
+        viewing: action.question,
+        loading: false,
+      };
+    }
+    case SEARCHINGQUESTIONS: {
+      return {
+        ...state,
+        searched: [], //search results
+        loading: true,
+      };
+    }
+    case SEARCHEDQUESTIONS: {
+      return {
+        ...state,
+        searched: action.questions,
+        loading: false,
+      };
+    }
+  }
+  return state;
+};
+// #endregion Reducer
