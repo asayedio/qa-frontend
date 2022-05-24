@@ -14,9 +14,11 @@ import {
   accent1,
 } from './styles';
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppState, gettingQuestionAction, gotQuestionAction } from './Store';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { QuestionData, getQuestion, postAnswer } from './QuestionData';
+import { getQuestion, postAnswer } from './QuestionData';
 import { Page } from './Page';
 import { AnswerList } from './AnswerList';
 import MoonLoader from 'react-spinners/ClipLoader';
@@ -24,19 +26,23 @@ type FormData = {
   content: string;
 };
 export const QuestionPage = () => {
-  const [question, setQuestion] = React.useState<QuestionData | null>(null);
+  const dispatch = useDispatch();
+  const question = useSelector((state: AppState) => state.questions.viewing);
+  /*const [question, setQuestion] = React.useState<QuestionData | null>(null);*/
   const { questionId } = useParams();
   const [successfullySubmitted, setSuccessfullySubmitted] =
     React.useState(false);
   React.useEffect(() => {
     const doGetQuestion = async (questionId: number) => {
+      dispatch(gettingQuestionAction());
       const foundQuestion = await getQuestion(questionId);
-      setQuestion(foundQuestion);
+      dispatch(gotQuestionAction(foundQuestion));
+      //setQuestion(foundQuestion);
     };
     if (questionId) {
       doGetQuestion(Number(questionId));
     }
-  }, [questionId]);
+  }, [questionId, dispatch]);
   const {
     register,
     formState: { errors },

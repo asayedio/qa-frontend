@@ -15,14 +15,6 @@ const initialQuestionState: QuestionsState = {
   viewing: null,
   searched: [],
 };
-const rootReducer = combineReducers<AppState>({
-  questions: questionsReducer,
-});
-
-export function configureStore(): Store<AppState> {
-  const store = createStore(rootReducer, undefined);
-  return store;
-}
 
 // #region Actions
 
@@ -145,3 +137,14 @@ const questionsReducer = (
   return state;
 };
 // #endregion Reducer
+
+// #region Store
+const rootReducer = combineReducers<AppState>({
+  questions: questionsReducer,
+});
+
+export function configureStore(): Store<AppState> {
+  const store = createStore(rootReducer, undefined);
+  return store;
+}
+// #endregion Store
