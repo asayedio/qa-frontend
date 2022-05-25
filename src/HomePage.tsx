@@ -14,6 +14,7 @@ import {
 import { Page } from './Page';
 import { PageTitle } from './PageTitle';
 import MoonLoader from 'react-spinners/ClipLoader';
+import { useAuth } from './Auth';
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ export const HomePage = () => {
   const handleAskQuestionClick = () => {
     navigate('ask');
   };
+  const { isAuthenticated } = useAuth();
   return (
     <Page>
       <div
@@ -48,9 +50,11 @@ export const HomePage = () => {
         `}
       >
         <PageTitle>Unanswered Questions</PageTitle>
-        <PrimaryButton onClick={handleAskQuestionClick}>
-          Ask a question
-        </PrimaryButton>
+        {isAuthenticated && (
+          <PrimaryButton onClick={handleAskQuestionClick}>
+            Ask a question
+          </PrimaryButton>
+        )}
       </div>
       {questionsLoading ? (
         <MoonLoader

@@ -1,3 +1,19 @@
 import React from 'react';
 import { Page } from './Page';
-export const SignInPage = () => <Page title="Sign In">{null}</Page>;
+import { StatusText } from './styles';
+import { useAuth } from './Auth';
+type SigninAction = 'signin' | 'signin-callback';
+interface Props {
+  action: SigninAction;
+}
+export const SignInPage = ({ action }: Props) => {
+  const { signIn } = useAuth();
+  if (action === 'signin') {
+    signIn();
+  }
+  return (
+    <Page title="Sign In">
+      <StatusText>Signing in ...</StatusText>
+    </Page>
+  );
+};

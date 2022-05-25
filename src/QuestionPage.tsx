@@ -22,6 +22,7 @@ import { getQuestion, postAnswer } from './QuestionData';
 import { Page } from './Page';
 import { AnswerList } from './AnswerList';
 import MoonLoader from 'react-spinners/ClipLoader';
+import { useAuth } from './Auth';
 type FormData = {
   content: string;
 };
@@ -60,6 +61,7 @@ export const QuestionPage = () => {
     });
     setSuccessfullySubmitted(result ? true : false);
   };
+  const { isAuthenticated } = useAuth();
   return (
     <Page>
       <div
@@ -102,54 +104,59 @@ export const QuestionPage = () => {
               ${question.created.toLocaleTimeString()}`}
             </div>
             <AnswerList data={question.answers} />
-            <form
-              onSubmit={handleSubmit(submitForm)}
-              css={css`
-                margin-top: 20px;
-              `}
-            >
-              <Fieldset
-                disabled={formState.isSubmitting || successfullySubmitted}
+            {isAuthenticated && (
+              <form
+                onSubmit={handleSubmit(submitForm)}
+                css={css`
+                  margin-top: 20px;
+                `}
               >
-                <FieldContainer>
-                  <FieldLabel htmlFor="content">Your Answer</FieldLabel>
-                  <FieldTextArea
-                    id="content"
-                    {...register('content', { required: true, minLength: 50 })}
-                  />
-                  {errors.content && errors.content.type === 'required' && (
-                    <FieldError>You must enter the answer</FieldError>
-                  )}
-                  {errors.content && errors.content.type === 'minLength' && (
-                    <FieldError>
-                      The answer must be at least 50 characters
-                    </FieldError>
-                  )}
-                </FieldContainer>
-                <FormButtonContainer>
-                  <PrimaryButton type="submit">
-                    <span
-                      css={css`
-                        margin-right: 10px;
-                      `}
-                    >
-                      Submit Your Answer
-                    </span>
-
-                    <MoonLoader
-                      color={accent1}
-                      loading={formState.isSubmitting}
-                      size={20}
+                <Fieldset
+                  disabled={formState.isSubmitting || successfullySubmitted}
+                >
+                  <FieldContainer>
+                    <FieldLabel htmlFor="content">Your Answer</FieldLabel>
+                    <FieldTextArea
+                      id="content"
+                      {...register('content', {
+                        required: true,
+                        minLength: 50,
+                      })}
                     />
-                  </PrimaryButton>
-                </FormButtonContainer>
-                {successfullySubmitted && (
-                  <SubmissionSuccess>
-                    Your answer was successfully submitted
-                  </SubmissionSuccess>
-                )}
-              </Fieldset>
-            </form>
+                    {errors.content && errors.content.type === 'required' && (
+                      <FieldError>You must enter the answer</FieldError>
+                    )}
+                    {errors.content && errors.content.type === 'minLength' && (
+                      <FieldError>
+                        The answer must be at least 50 characters
+                      </FieldError>
+                    )}
+                  </FieldContainer>
+                  <FormButtonContainer>
+                    <PrimaryButton type="submit">
+                      <span
+                        css={css`
+                          margin-right: 10px;
+                        `}
+                      >
+                        Submit Your Answer
+                      </span>
+
+                      <MoonLoader
+                        color={accent1}
+                        loading={formState.isSubmitting}
+                        size={20}
+                      />
+                    </PrimaryButton>
+                  </FormButtonContainer>
+                  {successfullySubmitted && (
+                    <SubmissionSuccess>
+                      Your answer was successfully submitted
+                    </SubmissionSuccess>
+                  )}
+                </Fieldset>
+              </form>
+            )}
           </React.Fragment>
         )}
       </div>
