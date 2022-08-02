@@ -29,20 +29,22 @@ type FormData = {
 export const QuestionPage = () => {
   const dispatch = useDispatch();
   const question = useSelector((state: AppState) => state.questions.viewing);
-  /*const [question, setQuestion] = React.useState<QuestionData | null>(null);*/
   const { questionId } = useParams();
   const [successfullySubmitted, setSuccessfullySubmitted] =
     React.useState(false);
   React.useEffect(() => {
+    let cancelled = false;
     const doGetQuestion = async (questionId: number) => {
       dispatch(gettingQuestionAction());
       const foundQuestion = await getQuestion(questionId);
-      dispatch(gotQuestionAction(foundQuestion));
-      //setQuestion(foundQuestion);
+      if (!cancelled) dispatch(gotQuestionAction(foundQuestion));
     };
     if (questionId) {
       doGetQuestion(Number(questionId));
     }
+    return () => {
+      cancelled = true;
+    };
   }, [questionId, dispatch]);
   const {
     register,

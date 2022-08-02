@@ -19,13 +19,16 @@ export const SearchPage = () => {
   //const [questions, setQuestions] = React.useState<QuestionData[]>([]);
   const search = searchParams.get('criteria') || '';
   React.useEffect(() => {
+    let cancelled = false;
     const doSearch = async (criteria: string) => {
       dispatch(searchingQuestionsAction());
       const foundResults = await searchQuestions(criteria);
-      dispatch(searchedQuestionsAction(foundResults));
-      //setQuestions(foundResults);
+      if (!cancelled) dispatch(searchedQuestionsAction(foundResults));
     };
     doSearch(search);
+    return () => {
+      cancelled = true;
+    };
   }, [search, dispatch]);
   return (
     <Page title="Search Results">

@@ -25,17 +25,19 @@ export const HomePage = () => {
     (state: AppState) => state.questions.loading,
   );
 
-  /*const [questions, setQuestions] = React.useState<QuestionData[]>([]);
-  const [questionsLoading, setQuestionsLoading] = React.useState(true);*/
   React.useEffect(() => {
+    let cancelled = false;
     const doGetUnansweredQuestions = async () => {
       dispatch(gettingUnansweredQuestionsAction());
       const unansweredQuestions = await getUnansweredQuestions();
-      dispatch(gotUnansweredQuestionsAction(unansweredQuestions));
-      /*setQuestions(unansweredQuestions);
-      setQuestionsLoading(false);*/
+      if (!cancelled) {
+        dispatch(gotUnansweredQuestionsAction(unansweredQuestions));
+      }
     };
     doGetUnansweredQuestions();
+    return () => {
+      cancelled = true;
+    };
   }, [dispatch]);
   const navigate = useNavigate();
   const handleAskQuestionClick = () => {
