@@ -3,7 +3,7 @@ export const server =
     ? 'https://qanda2022.azurewebsites.net'
     : process.env.REACT_APP_ENV === 'staging'
     ? 'https://qandasaging20220801225843.azurewebsites.net'
-    : 'https://localhost:7014';
+    : 'https://localhost:7047';
 
 export const webAPIUrl = `${server}/api`;
 
